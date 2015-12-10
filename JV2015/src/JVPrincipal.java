@@ -1,10 +1,12 @@
- /** 
-  * Proyecto: Juego de la vida.
-  * Pruebas iniciales de las clases Usuario y SesionUsuario del modelo1 
-  * @since: prototipo1.0
-  * @source: JVPrincipal.java 
-  * @version: 1.0 - 8/12/2015 
-  * @author: ajp
+/** 
+ * Proyecto: Juego de la vida.
+ * Pruebas iniciales de las clases Usuario y SesionUsuario del modelo1.
+ * En esta versión no se han aplicado la mayoría de los estándares 
+ * de diseño OO dirigidos a conseguir un "código limpio".
+ * @since: prototipo1.0
+ * @source: JVPrincipal.java 
+ * @version: 1.0 - 8/12/2015 
+ * @author: ajp
  */
 
 import java.util.Scanner;
