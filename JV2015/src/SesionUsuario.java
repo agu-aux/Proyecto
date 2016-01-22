@@ -10,7 +10,7 @@
  *  	- Clase sólo de datos.
  *  @since: prototipo1.0
  *  @source: SesionUsuario.java 
- *  @version: 1.0 - 8/12/2015 
+ *  @version: 1.1 - 21/05/2016 
  *  @author: ajp
  */
 

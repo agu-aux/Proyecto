@@ -11,22 +11,22 @@
  *  	- Obsesión por los tipos primitivos.  
  *  @since: prototipo1.0
  *  @source: Usuario.java 
- *  @version: 1.0 - 8/12/2015 
+ *  @version: 1.1 - 21/05/2016 
  *  @author: ajp
  */
 
 public class Usuario {
 	
 	// Atributos	
-	public String nif;
-	public String nombre;
-	public String apellidos;
-	public String domicilio;
-	public String correo;
-	public String fechaNacimiento;
-	public String fechaAlta;
-	public String claveAcceso;
-	public String rol;
+	private String nif;
+	private String nombre;
+	private String apellidos;
+	private String domicilio;
+	private String correo;
+	private String fechaNacimiento;
+	private String fechaAlta;
+	private String claveAcceso;
+	private String rol;
 
 	/**
 	 * Redefine el método heredado de la clase Objecto.
@@ -36,16 +36,91 @@ public class Usuario {
 	@Override
 	public String toString() {
 		return super.toString() + "\n" 			// Incluye identificador de objeto
-				+"\n nif: \t\t" + nif 
+				+"\n nif: \t\t" + getNif() 
 				+ "\n nombre: \t" + nombre 
 				+ "\n apellidos: \t" + apellidos 
-				+ "\n domicilio: \t" + domicilio 
-				+ "\n correo: \t" + correo 
-				+ "\n fechaNacimiento:" + fechaNacimiento
-				+ "\n fechaAlta: \t" + fechaAlta 
-				+ "\n claveAcceso: \t" + claveAcceso
-				+ "\n rol: \t\t" + rol ;
+				+ "\n domicilio: \t" + getDomicilio() 
+				+ "\n correo: \t" + getCorreo() 
+				+ "\n fechaNacimiento:" + getFechaNacimiento()
+				+ "\n fechaAlta: \t" + getFechaAlta() 
+				+ "\n claveAcceso: \t" + getClaveAcceso()
+				+ "\n rol: \t\t" + getRol() ;
 	}
 
+	public String getNif() {
+		return nif;
+	}
+
+	public void setNif(String nif) {
+		this.nif = nif;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+	public String getDomicilio() {
+		return domicilio;
+	}
+
+	public void setDomicilio(String domicilio) {
+		this.domicilio = domicilio;
+	}
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(String fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public String getFechaAlta() {
+		return fechaAlta;
+	}
+
+	public void setFechaAlta(String fechaAlta) {
+		this.fechaAlta = fechaAlta;
+	}
+
+	public String getClaveAcceso() {
+		return claveAcceso;
+	}
+
+	public void setClaveAcceso(String claveAcceso) {
+		this.claveAcceso = claveAcceso;
+	}
+
+	public String getRol() {
+		return rol;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
+
+
+	
+	
 } // class
 
