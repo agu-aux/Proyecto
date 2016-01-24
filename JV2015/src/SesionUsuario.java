@@ -10,15 +10,39 @@
  *  	- Clase sólo de datos.
  *  @since: prototipo1.0
  *  @source: SesionUsuario.java 
- *  @version: 1.1 - 21/05/2016 
+ *  @version: 1.1 - 21/01/2016 
  *  @author: ajp
  */
 
 public class SesionUsuario {
 	
 	// Atributos	
-	public Usuario usr;   // Concreta la relación de composición del modelo UML
-	public String fecha; 
+	
+	private Usuario usr;   // Concreta la relación de composición del modelo UML
+	private String fecha; 
+	
+	// Constructores
+	
+	
+	// Métodos de acceso
+	
+	public Usuario getUsr() {
+		return usr;
+	}
+	
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setUsr(Usuario usr) {
+		this.usr = usr;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+	
+	// Métodos redefinidos
 	
 	/**
 	 * Redefine el método heredado de la clase Objecto.
@@ -28,7 +52,8 @@ public class SesionUsuario {
 	@Override
 	public String toString() {
 		return super.toString() + "\n" 			// Incluye identificador de objeto
-				+ "\n" + usr  					// usr.toString()
-				+ "\n fecha:" + fecha;
+				+ "\n" + getUsr()
+				+ "\n fecha:" + getFecha();
 	}
+
 } // class
