@@ -42,7 +42,7 @@ public class JVPrincipal {
 
 	public static void main(String[] args) {	
 		cargarDatosPrueba();		
-		//mostrarTodosDatosUsuarios();
+		mostrarTodosDatosUsuarios();
 
 		if (iniciarSesion()) {
 			arrancarSimulacion();
@@ -215,18 +215,14 @@ public class JVPrincipal {
 		datosUsuarios[0].setFechaAlta("2014.12.3");
 		datosUsuarios[0].setClaveAcceso("miau");
 		datosUsuarios[0].setRol("usuario normal");
-
+		
 		for (int i = 1; i < MAX_USUARIOS; i++) {
-			datosUsuarios[i] = new Usuario();
-			datosUsuarios[i].setNif(i + "344556K");
-			datosUsuarios[i].setNombre("Pepe" + i); 
-			datosUsuarios[i].setApellidos("López" + " Pérez" +i);
-			datosUsuarios[i].setDomicilio("C/Luna, 27 30132 Murcia");
-			datosUsuarios[i].setCorreo("pepe" + i + "@gmail.com");
-			datosUsuarios[i].setFechaNacimiento("1990.11.12");
-			datosUsuarios[i].setFechaAlta("2014.12.3");
-			datosUsuarios[i].setClaveAcceso("miau" + i);
-			datosUsuarios[i].setRol("usuario normal");
+			datosUsuarios[i] = new Usuario(i + "344556K", "Pepe" + i,
+					"López" + " Pérez" +i, "C/Luna, 27 30132 Murcia", 
+					"pepe" + i + "@gmail.com", "1990.11.12", 
+					"2014.12.3", "miau" + i, "usuario normal");
+		
+			
 		}
 	}
 	

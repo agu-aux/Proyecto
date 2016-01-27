@@ -3,12 +3,10 @@
  *  En esta versión no se han aplicado la mayoría de los estándares 
  *  de diseño OO dirigidos a conseguir un "código limpio". 
  *  La implementación es la más básica posible con el fin ilustrar 
- *  cómo se evoluciona desde un "código malo".
+ *  cómo se evoluciona desde un "código con defectos".
  *  Se pueden detectar varios defectos y antipatrones de diseño:
- *  	- Ausencia de encapsulación.
  *  	- Clase demasiado grande.
- *  	- Clase sólo de datos.
- *  	- Obsesión por los tipos primitivos.  
+ *  	- Abuso por los tipos primitivos.  
  *  @since: prototipo1.0
  *  @source: Usuario.java 
  *  @version: 1.1 - 21/01/2016 
@@ -30,7 +28,57 @@ public class Usuario {
 	private String rol;
 
 	// Constructores
+	/**
+	 * Constructor convencional.
+	 * Establece el valor inicial de cada uno de los atributos.
+	 * Recibe parámetros que se corresponden con los atributos.
+	 * @param nif
+	 * @param nombre
+	 * @param apellidos
+	 * @param domicilio
+	 * @param correo
+	 * @param fechaNacimiento
+	 * @param fechaAlta
+	 * @param claveAcceso
+	 * @param rol
+	 */
+	public Usuario(String nif, String nombre, String apellidos, 
+			String domicilio, String correo, String fechaNacimiento,
+			String fechaAlta, String claveAcceso, String rol) {
+		this.nif = nif;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.domicilio = domicilio;
+		this.correo = correo;
+		this.fechaNacimiento = fechaNacimiento;
+		this.fechaAlta = fechaAlta;
+		this.claveAcceso = claveAcceso;
+		this.rol = rol;
+	}
 	
+	/**
+	 * Constructor por defecto.
+	 * Establece el valor inicial, por defecto, de cada uno de los atributos.
+	 * Llama al constructor convencional de la propia clase.
+	 */
+	public Usuario(){
+		this("nif", "nombre", "apellidos", 
+				"domicilio", "correo", "fechaNacimiento", 
+				"fechaAlta", "claveAcceso", "rol");
+	}
+	
+	/**
+	 * Constructor copia.
+	 * Establece el valor inicial de cada uno de los atributos a partir de
+	 * los valores obtenidos de un objeto de su misma clase.
+	 * Llama al constructor convencional.
+	 * @param u - el Usuario a clonar
+	 */
+	public Usuario(Usuario usr) {
+		this(usr.nif, usr.nombre, usr.apellidos, 
+				usr.domicilio, usr.correo, usr.fechaNacimiento, 
+				usr.fechaAlta, usr.claveAcceso, usr.rol);
+	}
 	
 	// Métodos de acceso
 
@@ -115,16 +163,15 @@ public class Usuario {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + "\n" 			// Incluye identificador de objeto
-				+"\n nif: \t\t" + getNif() 
+		return "\n nif: \t\t" + nif 
 				+ "\n nombre: \t" + nombre 
 				+ "\n apellidos: \t" + apellidos 
-				+ "\n domicilio: \t" + getDomicilio() 
-				+ "\n correo: \t" + getCorreo() 
-				+ "\n fechaNacimiento:" + getFechaNacimiento()
-				+ "\n fechaAlta: \t" + getFechaAlta() 
-				+ "\n claveAcceso: \t" + getClaveAcceso()
-				+ "\n rol: \t\t" + getRol() ;
+				+ "\n domicilio: \t" + domicilio 
+				+ "\n correo: \t" + correo 
+				+ "\n fechaNacimiento:" + fechaNacimiento
+				+ "\n fechaAlta: \t" + fechaAlta 
+				+ "\n claveAcceso: \t" + claveAcceso
+				+ "\n rol: \t\t" + rol;
 	}
 	
 } // class

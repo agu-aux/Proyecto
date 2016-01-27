@@ -42,6 +42,25 @@ public class SesionUsuario {
 		this.fecha = fecha;
 	}
 	
+	// Constructores
+	
+	/**
+	 * @param usr
+	 * @param fecha
+	 */
+	public SesionUsuario(Usuario usr, String fecha) {
+		this.usr = usr;
+		this.fecha = fecha;
+	}
+	
+	public SesionUsuario(){
+		this(new Usuario(), "fecha");
+	}
+
+	public SesionUsuario(SesionUsuario su){
+		this(new Usuario(su.usr), new String(su.fecha));
+	}
+	
 	// Métodos redefinidos
 	
 	/**
@@ -51,9 +70,8 @@ public class SesionUsuario {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + "\n" 			// Incluye identificador de objeto
-				+ "\n" + getUsr()
-				+ "\n fecha:" + getFecha();
+		return  "\n" + usr
+				+ "\n fecha:" + fecha;
 	}
 
 } // class
