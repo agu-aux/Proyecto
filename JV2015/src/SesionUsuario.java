@@ -3,11 +3,6 @@
  *  Implementa el concepto de SesionUsuario según el modelo1
  *  En esta versión no se han aplicado la mayoría de los estándares 
  *  de diseño OO dirigidos a conseguir un "código limpio". 
- *  La implementación es la más básica posible con el fin ilustrar 
- *  cómo se evoluciona desde un "código malo".
- *  Se pueden detectar varios defectos y antipatrones de diseño:
- *  	- Ausencia de encapsulación.
- *  	- Clase sólo de datos.
  *  @since: prototipo1.0
  *  @source: SesionUsuario.java 
  *  @version: 1.1 - 21/01/2016 

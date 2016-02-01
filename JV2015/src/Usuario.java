@@ -1,12 +1,12 @@
 /** Proyecto: Juego de la vida.
  *  Implementa el concepto de Usuario según el modelo1.
- *  En esta versión no se han aplicado la mayoría de los estándares 
+ *  En esta versión se ha empezado a aplicar alguno de los estándares 
  *  de diseño OO dirigidos a conseguir un "código limpio". 
- *  La implementación es la más básica posible con el fin ilustrar 
+ *  La implementación es básica con el fin ilustrar 
  *  cómo se evoluciona desde un "código con defectos".
  *  Se pueden detectar varios defectos y antipatrones de diseño:
  *  	- Clase demasiado grande.
- *  	- Abuso por los tipos primitivos.  
+ *  	- Abuso de tipos primitivos.  
  *  @since: prototipo1.0
  *  @source: Usuario.java 
  *  @version: 1.1 - 21/01/2016 
