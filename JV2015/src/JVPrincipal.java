@@ -5,7 +5,7 @@
  * de diseño OO dirigidos a conseguir un "código limpio".
  * @since: prototipo1.0
  * @source: JVPrincipal.java 
- * @version: 1.0 - 8/12/2015 
+ * @version: 1.1 - 21/01/2016 
  * @author: ajp
  */
 
@@ -14,7 +14,6 @@ import java.util.Scanner;
 
 public class JVPrincipal {
 
-	//Apartado 6:
 	static final int MAX_USUARIOS = 10;
 	static final int MAX_SESIONES = 10;
 	static Usuario[] datosUsuarios = new Usuario[MAX_USUARIOS];
@@ -22,7 +21,6 @@ public class JVPrincipal {
 	
 	static Scanner teclado = new Scanner(System.in);	//Entrada por consola
 
-	//Apartado 8:
 	// En este array los 0 indican celdas con célula muerta y los 1 vivas
 	static byte[][] mundo = { 
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, //
@@ -43,24 +41,18 @@ public class JVPrincipal {
 	static final int CICLOS = 120;
 
 	public static void main(String[] args) {	
-		//Apartado 4 y 5: Pruebas
-		//pruebasPrevias();
-
-		//Apartado 7: 
 		cargarDatosPrueba();		
-		//mostrarTodosDatosUsuarios();
+		mostrarTodosDatosUsuarios();
 
-		//Apartado 8:
-		if (iniciarSesion()) {
-			arrancarSimulacion();
-		}
+	//	if (iniciarSesion()) {
+	//		arrancarSimulacion();
+	//	}
 
 		System.out.println("Fin del programa...");
 		teclado.close();
 	}
 
 	/**
-	 * Apartado 8:
 	 * Controla el acceso de usuario 
 	 * y registro de la sesión correspondiente. 
 	 * @return true si la sesión de usuario es válida.
@@ -80,11 +72,11 @@ public class JVPrincipal {
 
 			// Buscar usuario coincidente con credencial
 			for (int i = 0; i < MAX_USUARIOS; i++) {
-				if (datosUsuarios[i].nif.equals(credencialUsr)) {
+				if (datosUsuarios[i].getNif().equals(credencialUsr)) {
 					usrSesion = datosUsuarios[i];	// Guarda referencia al usuario encontrado
 					
 					// comprobar contraseña
-					if (usrSesion.claveAcceso.equals(clave)) {
+					if (usrSesion.getClaveAcceso().equals(clave)) {
 						todoCorrecto = true;
 						break;						//Termina for de búsqueda
 					}
@@ -101,19 +93,18 @@ public class JVPrincipal {
 		if (todoCorrecto) {
 			// Registra sesión
 			datosSesiones[sesionesRegistradas] = new SesionUsuario();
-			datosSesiones[sesionesRegistradas].usr = usrSesion;
-			datosSesiones[sesionesRegistradas].fecha = new Date().toString();
+			datosSesiones[sesionesRegistradas].setUsr(usrSesion);
+			datosSesiones[sesionesRegistradas].setFecha(new Date().toString());
 			sesionesRegistradas++; // Actualiza contador sesiones
 			
-			System.out.println("Sesión: " + sesionesRegistradas + '\n' + "Iniciada por: " + usrSesion.nombre + " "
-					+ usrSesion.apellidos);
+			System.out.println("Sesión: " + sesionesRegistradas + '\n' + "Iniciada por: " + usrSesion.getNombre() + " "
+					+ usrSesion.getApellidos());
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Apartado 8:
 	 * Ejecuta una simulación del juego de la vida en la consola.
 	 * Utiliza la configuración por defecto.
 	 */
@@ -130,7 +121,6 @@ public class JVPrincipal {
 	}
 
 	/**
-	 * Apartado 8:
 	 * Despliega en la consola el estado almacenado correspondiente
 	 * a una generación del Juego de la vida.
 	 */
@@ -145,7 +135,6 @@ public class JVPrincipal {
 	}
 
 	/**
-	 * Apartado 8:
 	 * Actualiza el estado almacenado del Juego de la Vida.
 	 * @return nuevoEstado, el array con los cambios de la siguiente generación.
 	 */
@@ -202,7 +191,6 @@ public class JVPrincipal {
 	}
 
 	/**
-	 * Apartado 7:
 	 * Muestra por consola todos los usuarios almacenados.
 	 */
 	private static void mostrarTodosDatosUsuarios() {
@@ -213,118 +201,27 @@ public class JVPrincipal {
 	}
 
 	/**
-	 * Apartado 7:
 	 * Genera datos de prueba válidos dentro 
 	 * del almacén de datos.
 	 */
 	private static void cargarDatosPrueba() {
 		datosUsuarios[0] = new Usuario();
-		datosUsuarios[0].nif = "2344556K";
-		datosUsuarios[0].nombre = "Pepe"; 
-		datosUsuarios[0].apellidos = "López Pérez";
-		datosUsuarios[0].domicilio = "C/Luna, 27 30132 Murcia";
-		datosUsuarios[0].correo = "pepe@gmail.com";
-		datosUsuarios[0].fechaNacimiento = "1990.11.12";
-		datosUsuarios[0].fechaAlta = "2014.12.3";
-		datosUsuarios[0].claveAcceso = "miau";
-		datosUsuarios[0].rol = "usuario normal";
-
+		datosUsuarios[0].setNif("02344556K");
+		datosUsuarios[0].setNombre("Pepe"); 
+		datosUsuarios[0].setApellidos("López Pérez");
+		datosUsuarios[0].setDomicilio("C/Luna, 27 30132 Murcia");
+		datosUsuarios[0].setCorreo("pepe@gmail.com");
+		datosUsuarios[0].setFechaNacimiento("1990.11.12");
+		datosUsuarios[0].setFechaAlta("2014.12.03");
+		datosUsuarios[0].setClaveAcceso("miau");
+		datosUsuarios[0].setRol("usuario normal");
+		
 		for (int i = 1; i < MAX_USUARIOS; i++) {
-			datosUsuarios[i] = new Usuario();
-			datosUsuarios[i].nif = i + "344556K";
-			datosUsuarios[i].nombre = "Pepe" + i; 
-			datosUsuarios[i].apellidos = "López" + " Pérez" +i ;
-			datosUsuarios[i].domicilio = "C/Luna, 27 30132 Murcia";
-			datosUsuarios[i].correo = "pepe" + i + "@gmail.com";
-			datosUsuarios[i].fechaNacimiento = "1990.11.12";
-			datosUsuarios[i].fechaAlta = "2014.12.3";
-			datosUsuarios[i].claveAcceso = "miau" + i;
-			datosUsuarios[i].rol = "usuario normal";
+			datosUsuarios[i] = new Usuario(i + "2344556K", "Pepe" + i,
+					"López" + " Pérez" +i, "C/Luna, 27 30132 Murcia", 
+					"pepe" + i + "@gmail.com", "1990.11.12", 
+					"2014.12.03", "miau" + i, "usuario normal");
 		}
 	}
-
-	/**
-	 * Apartado 4 y 5: Pruebas
-	 */
-	private static void pruebasPrevias() {
-		Scanner teclado = new Scanner(System.in);
-
-		// Prueba de la clase Usuario
-
-		Usuario usr1;
-		//Equivalencia
-		//usr1.nombre = "Luis";
-		//null.nombre = "Luis";	
-
-		//Asignación de referencias no duplica objeto
-		Usuario usr2 = new Usuario();
-		usr1 = usr2;
-
-		usr2.nif = "23456790K";
-		usr2.nombre = "Pepe";
-		usr2.apellidos = "López Pérez";
-		usr2.domicilio = "C/Luna, 27 30132 Murcia";
-		usr2.correo = "pepe@gmail.com";
-		usr2.fechaNacimiento = "1990.11.12";
-		usr2.fechaAlta = "2014.12.3";
-		usr2.claveAcceso = "miau";
-		usr2.rol = "usuario normal";
-
-		//Modifica también usr2, son el mismo objeto
-		usr1.nombre = "Luis";
-		System.out.println("usr1: " + usr1.nombre);
-		System.out.println("usr2: " + usr2.nombre);
-
-		//Así si duplica
-		Usuario usr4 = new Usuario();
-		usr4 .nif = usr2.nif;
-		usr4.nombre = usr2.nombre;
-		usr4.apellidos = usr2.apellidos;
-		usr4.domicilio =  usr2.domicilio;
-		usr4.correo = usr2.correo;
-		usr4.fechaNacimiento = usr2.fechaNacimiento;
-		usr4.fechaAlta = usr2.fechaAlta;
-		usr4.fechaAlta = usr2.fechaAlta;
-		usr4.rol = usr2.rol;
-
-		// Son diferentes objetos
-		usr4.nombre = "Pedro";
-		System.out.println(usr2.nombre);
-
-		// Desde teclado
-		Usuario usr3 = new Usuario();
-		System.out.println("Entrada de datos de usuario... ");
-		System.out.print("nif: ");	
-		usr3.nif = teclado.next();
-		System.out.print("nombre: ");	
-		usr3.nombre = teclado.next();
-		System.out.print("apellidos: ");
-		usr3.apellidos = teclado.next();
-		System.out.print("domicilio: ");
-		usr3.domicilio =  teclado.next();
-		System.out.print("correo: ");
-		usr3.correo = teclado.next();
-		System.out.print("fechaNacimiento: ");
-		usr3.fechaNacimiento = teclado.next();
-		System.out.print("fechaAlta: ");
-		usr3.fechaAlta = teclado.next();
-		System.out.print("claveAcceso: ");
-		usr3.claveAcceso = teclado.next();
-		System.out.print("rol: ");
-		usr3.rol = "NORMAL";
-
-		// Si toString() de Usuario no está redefinido...
-		System.out.println(usr1); 		// Muestra identificador único de objeto
-		System.out.println(usr2);
-		System.out.println(usr3);
-		System.out.println(usr4);
-
-		// Prueba de la clase SesionUsuario
-		SesionUsuario sesion1 = new SesionUsuario();
-		sesion1.usr = usr2;
-		sesion1.fecha = "2014.12.3";
-
-		System.out.println(sesion1);	
-	}
-
+	
 } //class
