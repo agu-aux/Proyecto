@@ -44,9 +44,9 @@ public class JVPrincipal {
 		cargarDatosPrueba();		
 		mostrarTodosDatosUsuarios();
 
-		if (iniciarSesion()) {
-			arrancarSimulacion();
-		}
+	//	if (iniciarSesion()) {
+	//		arrancarSimulacion();
+	//	}
 
 		System.out.println("Fin del programa...");
 		teclado.close();
@@ -206,23 +206,21 @@ public class JVPrincipal {
 	 */
 	private static void cargarDatosPrueba() {
 		datosUsuarios[0] = new Usuario();
-		datosUsuarios[0].setNif("2344556K");
+		datosUsuarios[0].setNif("02344556K");
 		datosUsuarios[0].setNombre("Pepe"); 
 		datosUsuarios[0].setApellidos("López Pérez");
 		datosUsuarios[0].setDomicilio("C/Luna, 27 30132 Murcia");
 		datosUsuarios[0].setCorreo("pepe@gmail.com");
 		datosUsuarios[0].setFechaNacimiento("1990.11.12");
-		datosUsuarios[0].setFechaAlta("2014.12.3");
+		datosUsuarios[0].setFechaAlta("2014.12.03");
 		datosUsuarios[0].setClaveAcceso("miau");
 		datosUsuarios[0].setRol("usuario normal");
 		
 		for (int i = 1; i < MAX_USUARIOS; i++) {
-			datosUsuarios[i] = new Usuario(i + "344556K", "Pepe" + i,
+			datosUsuarios[i] = new Usuario(i + "2344556K", "Pepe" + i,
 					"López" + " Pérez" +i, "C/Luna, 27 30132 Murcia", 
 					"pepe" + i + "@gmail.com", "1990.11.12", 
-					"2014.12.3", "miau" + i, "usuario normal");
-		
-			
+					"2014.12.03", "miau" + i, "usuario normal");
 		}
 	}
 	

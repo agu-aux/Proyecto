@@ -12,11 +12,27 @@
 public class SesionUsuario {
 	
 	// Atributos	
-	
 	private Usuario usr;   // Concreta la relación de composición del modelo UML
 	private String fecha; 
 	
 	// Constructores
+	
+	/**
+	 * @param usr
+	 * @param fecha
+	 */
+	public SesionUsuario(Usuario usr, String fecha) {
+		setUsr(usr);
+		setFecha(fecha);
+	}
+	
+	public SesionUsuario(){
+		this(new Usuario(), "2015.01.01");
+	}
+
+	public SesionUsuario(SesionUsuario su){
+		this(new Usuario(su.usr), new String(su.fecha));
+	}
 	
 	
 	// Métodos de acceso
@@ -30,30 +46,26 @@ public class SesionUsuario {
 	}
 
 	public void setUsr(Usuario usr) {
+		assert usr != null;
 		this.usr = usr;
 	}
-
+	
 	public void setFecha(String fecha) {
+		assert fecha != null;
+		assert fechaValida(fecha);
 		this.fecha = fecha;
-	}
-	
-	// Constructores
-	
-	/**
-	 * @param usr
-	 * @param fecha
-	 */
-	public SesionUsuario(Usuario usr, String fecha) {
-		this.usr = usr;
-		this.fecha = fecha;
-	}
-	
-	public SesionUsuario(){
-		this(new Usuario(), "fecha");
 	}
 
-	public SesionUsuario(SesionUsuario su){
-		this(new Usuario(su.usr), new String(su.fecha));
+	private boolean fechaValida(String fecha) {
+		assert fecha.matches("^[0-9]{4}[/.-][0-9]{2}[/.-][0-9]{2}$");
+		// Semántica.
+		return fechaSesionCoherente(fecha);
+	}
+	
+	private boolean fechaSesionCoherente(String fecha) {
+		// Comprueba que fechaSesion no es, por ejemplo, del futuro
+		// --Pendiente--
+		return true;
 	}
 	
 	// Métodos redefinidos
@@ -66,7 +78,7 @@ public class SesionUsuario {
 	@Override
 	public String toString() {
 		return  "\n" + usr
-				+ "\n fecha:" + fecha;
+				+ String.format("\n fecha: \t\t%s", fecha);
 	}
 
 } // class
