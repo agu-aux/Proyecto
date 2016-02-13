@@ -18,24 +18,36 @@ public class SesionUsuario {
 	// Constructores
 	
 	/**
-	 * @param usr
-	 * @param fecha
+	 * Constructor convencional.
+	 * Establece el valor inicial de cada uno de los atributos.
+	 * Recibe parámetros que se corresponden con los atributos.
 	 */
 	public SesionUsuario(Usuario usr, String fecha) {
 		setUsr(usr);
 		setFecha(fecha);
 	}
 	
+	/**
+	 * Constructor por defecto.
+	 * Establece el valor inicial, por defecto, de cada uno de los atributos.
+	 * Llama al constructor convencional de la propia clase.
+	 */
 	public SesionUsuario(){
 		this(new Usuario(), "2015.01.01");
 	}
 
+	/**
+	 * Constructor copia.
+	 * Establece el valor inicial de cada uno de los atributos a partir de
+	 * los valores obtenidos de un objeto de su misma clase, recibido como parámetro.
+	 * Llama al constructor convencional de la propia clase.
+	 */
 	public SesionUsuario(SesionUsuario su){
 		this(new Usuario(su.usr), new String(su.fecha));
 	}
 	
 	
-	// Métodos de acceso
+	// Métodos de acceso y auxiliares.
 	
 	public Usuario getUsr() {
 		return usr;
