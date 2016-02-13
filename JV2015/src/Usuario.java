@@ -72,7 +72,7 @@ public class Usuario {
 				usr.fechaAlta, usr.claveAcceso, usr.rol);
 	}
 
-	// Métodos de acceso.
+	// Métodos de acceso y auxiliares.
 
 	public String getNif() {
 		return nif;
