@@ -5,20 +5,21 @@
  * de diseño OO dirigidos a conseguir un "código limpio".
  * @since: prototipo1.0
  * @source: JVPrincipal.java 
- * @version: 1.1 - 21/01/2016 
+ * @version: 1.2 - 25/02/2016 
  * @author: ajp
  */
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
-public class JVPrincipal {
+import accesoDato.Datos;
+import modelo.SesionUsuario;
+import modelo.Usuario;
 
-	static final int MAX_USUARIOS = 10;
-	static final int MAX_SESIONES = 10;
-	static Usuario[] datosUsuarios = new Usuario[MAX_USUARIOS];
-	static SesionUsuario[] datosSesiones = new SesionUsuario[MAX_SESIONES];
-	
+public class JVPrincipal {
+		
 	static Scanner teclado = new Scanner(System.in);	//Entrada por consola
 
 	// En este array los 0 indican celdas con célula muerta y los 1 vivas
@@ -41,13 +42,11 @@ public class JVPrincipal {
 	static final int CICLOS = 120;
 
 	public static void main(String[] args) {	
-		cargarDatosPrueba();		
-		mostrarTodosDatosUsuarios();
-
-	//	if (iniciarSesion()) {
-	//		arrancarSimulacion();
-	//	}
-
+		Datos datos = new Datos();		
+		System.out.println(datos.textoDatosUsuarios());
+		if (iniciarSesion(datos)) {
+			arrancarSimulacion();
+		}
 		System.out.println("Fin del programa...");
 		teclado.close();
 	}
@@ -55,31 +54,30 @@ public class JVPrincipal {
 	/**
 	 * Controla el acceso de usuario 
 	 * y registro de la sesión correspondiente. 
+	 * @param datos 
 	 * @return true si la sesión de usuario es válida.
 	 */
-	private static boolean iniciarSesion() {
+	public static boolean iniciarSesion(Datos datos) {
 		boolean todoCorrecto = false;				// Control de credenciales de usuario
 		Usuario usrSesion = null;					// Usuario en sesión
 		int intentos = 3;							// Contandor de intentos
-		int sesionesRegistradas = 0;				// Control de sesiones registradas
-	
+
 		do {
 			// Pide credencial usuario y contraseña
-			System.out.print("Introduce el nif: ");
+			System.out.print("Introduce el idUsr: ");
 			String credencialUsr = teclado.nextLine();
+			credencialUsr = credencialUsr.toUpperCase();
 			System.out.print("Introduce clave acceso: ");
 			String clave = teclado.nextLine();
 
-			// Buscar usuario coincidente con credencial
-			for (int i = 0; i < MAX_USUARIOS; i++) {
-				if (datosUsuarios[i].getNif().equals(credencialUsr)) {
-					usrSesion = datosUsuarios[i];	// Guarda referencia al usuario encontrado
-					
-					// comprobar contraseña
-					if (usrSesion.getClaveAcceso().equals(clave)) {
-						todoCorrecto = true;
-						break;						//Termina for de búsqueda
-					}
+			// Busca usuario coincidente con credencial
+			usrSesion = datos.buscarUsuario(credencialUsr);
+			if ( usrSesion != null) {	
+				// Usuario temporal para encriptar la clave introducida
+				Usuario usrTmp = new Usuario();
+				usrTmp.setClaveAcceso(clave);
+				if (usrSesion.getClaveAcceso().equals(usrTmp.getClaveAcceso())) {
+					todoCorrecto = true;
 				}
 			}
 			if (todoCorrecto == false) {
@@ -92,18 +90,22 @@ public class JVPrincipal {
 
 		if (todoCorrecto) {
 			// Registra sesión
-			datosSesiones[sesionesRegistradas] = new SesionUsuario();
-			datosSesiones[sesionesRegistradas].setUsr(usrSesion);
-			datosSesiones[sesionesRegistradas].setFecha(new Date().toString());
-			sesionesRegistradas++; // Actualiza contador sesiones
+			SesionUsuario sesionUsr = new SesionUsuario();
+			sesionUsr.setUsr(usrSesion);
+			Calendar hoy = new GregorianCalendar();
+			sesionUsr.setFecha(hoy.get(Calendar.YEAR) + "."
+							+ hoy.get(Calendar.MONTH) + "."
+							+ hoy.get(Calendar.DATE));
+			datos.registrarSesion(sesionUsr);
 			
-			System.out.println("Sesión: " + sesionesRegistradas + '\n' + "Iniciada por: " + usrSesion.getNombre() + " "
+			System.out.println("Sesión: " + datos.getSesionesRegistradas()
+					+ '\n' + "Iniciada por: " + usrSesion.getNombre() + " "
 					+ usrSesion.getApellidos());
 			return true;
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Ejecuta una simulación del juego de la vida en la consola.
 	 * Utiliza la configuración por defecto.
@@ -188,40 +190,6 @@ public class JVPrincipal {
 			}
 		}
 		return nuevoEstado;
-	}
-
-	/**
-	 * Muestra por consola todos los usuarios almacenados.
-	 */
-	private static void mostrarTodosDatosUsuarios() {
-
-		for (Usuario u: datosUsuarios) {
-			System.out.println("\n" + u);
-		}
-	}
-
-	/**
-	 * Genera datos de prueba válidos dentro 
-	 * del almacén de datos.
-	 */
-	private static void cargarDatosPrueba() {
-		datosUsuarios[0] = new Usuario();
-		datosUsuarios[0].setNif("02344556K");
-		datosUsuarios[0].setNombre("Pepe"); 
-		datosUsuarios[0].setApellidos("López Pérez");
-		datosUsuarios[0].setDomicilio("C/Luna, 27 30132 Murcia");
-		datosUsuarios[0].setCorreo("pepe@gmail.com");
-		datosUsuarios[0].setFechaNacimiento("1990.11.12");
-		datosUsuarios[0].setFechaAlta("2014.12.03");
-		datosUsuarios[0].setClaveAcceso("miau");
-		datosUsuarios[0].setRol("usuario normal");
-		
-		for (int i = 1; i < MAX_USUARIOS; i++) {
-			datosUsuarios[i] = new Usuario(i + "2344556K", "Pepe" + i,
-					"López" + " Pérez" +i, "C/Luna, 27 30132 Murcia", 
-					"pepe" + i + "@gmail.com", "1990.11.12", 
-					"2014.12.03", "miau" + i, "usuario normal");
-		}
 	}
 	
 } //class

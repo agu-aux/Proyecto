@@ -1,3 +1,4 @@
+package modelo;
 /** 
  * Proyecto: Juego de la vida.
  *  Implementa el concepto de SesionUsuario según el modelo1
@@ -69,7 +70,7 @@ public class SesionUsuario {
 	}
 
 	private boolean fechaValida(String fecha) {
-		assert fecha.matches("^[0-9]{4}[/.-][0-9]{2}[/.-][0-9]{2}$");
+		assert fecha.matches("^[0-9]{4}[/.-][0-9]{1,2}[/.-][0-9]{1,2}$");
 		// Semántica.
 		return fechaSesionCoherente(fecha);
 	}
