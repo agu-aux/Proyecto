@@ -6,7 +6,7 @@ package modelo;
  *  de diseño OO dirigidos a conseguir un "código limpio". 
  *  @since: prototipo1.0
  *  @source: SesionUsuario.java 
- *  @version: 1.1 - 21/01/2016 
+ *  @version: 1.2 - 22/02/2016 
  *  @author: ajp
  */
 
@@ -19,36 +19,24 @@ public class SesionUsuario {
 	// Constructores
 	
 	/**
-	 * Constructor convencional.
-	 * Establece el valor inicial de cada uno de los atributos.
-	 * Recibe parámetros que se corresponden con los atributos.
+	 * @param usr
+	 * @param fecha
 	 */
 	public SesionUsuario(Usuario usr, String fecha) {
 		setUsr(usr);
 		setFecha(fecha);
 	}
 	
-	/**
-	 * Constructor por defecto.
-	 * Establece el valor inicial, por defecto, de cada uno de los atributos.
-	 * Llama al constructor convencional de la propia clase.
-	 */
 	public SesionUsuario(){
 		this(new Usuario(), "2015.01.01");
 	}
 
-	/**
-	 * Constructor copia.
-	 * Establece el valor inicial de cada uno de los atributos a partir de
-	 * los valores obtenidos de un objeto de su misma clase, recibido como parámetro.
-	 * Llama al constructor convencional de la propia clase.
-	 */
 	public SesionUsuario(SesionUsuario su){
 		this(new Usuario(su.usr), new String(su.fecha));
 	}
 	
 	
-	// Métodos de acceso y auxiliares.
+	// Métodos de acceso
 	
 	public Usuario getUsr() {
 		return usr;
@@ -65,16 +53,26 @@ public class SesionUsuario {
 	
 	public void setFecha(String fecha) {
 		assert fecha != null;
-		assert fechaValida(fecha);
+		assert fechaSesionValida(fecha);
 		this.fecha = fecha;
 	}
 
-	private boolean fechaValida(String fecha) {
+	/**
+	 * Comprueba validez de una fecha.
+	 * @param fecha.
+	 * @return true si cumple.
+	 */
+	private boolean fechaSesionValida(String fecha) {
 		assert fecha.matches("^[0-9]{4}[/.-][0-9]{1,2}[/.-][0-9]{1,2}$");
 		// Semántica.
 		return fechaSesionCoherente(fecha);
 	}
 	
+	/**
+	 * Comprueba coherencia de una fecha de sesión.
+	 * @param fecha.
+	 * @return true si cumple.
+	 */
 	private boolean fechaSesionCoherente(String fecha) {
 		// Comprueba que fechaSesion no es, por ejemplo, del futuro
 		// --Pendiente--

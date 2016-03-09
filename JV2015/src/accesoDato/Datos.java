@@ -1,40 +1,35 @@
 package accesoDato;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Map;
+
 import modelo.SesionUsuario;
 import modelo.Usuario;
 
 public class Datos {
-	private final int MAX_USUARIOS = 10;
-	private final int MAX_SESIONES = 10;
-	private Usuario[] datosUsuarios;
-	private SesionUsuario[] datosSesiones;
-	private int sesionesRegistradas;
+
+	private ArrayList<Usuario> datosUsuarios;
+	private ArrayList<SesionUsuario> datosSesiones;
+	private Hashtable<String, String> equivalencias;
 
 	public Datos() {
-		datosUsuarios = new Usuario[MAX_USUARIOS];
-		datosSesiones = new SesionUsuario[MAX_SESIONES];	
-		sesionesRegistradas = 0;
+		datosUsuarios = new ArrayList<Usuario>();
+		datosSesiones = new ArrayList<SesionUsuario>();
+		equivalencias = new Hashtable<String, String>();
 		cargarDatosPrueba();
 	}
 
-	public int getMaxUsuarios() {
-		return MAX_USUARIOS;
-	}
-
-	public int getMaxSesiones() {
-		return MAX_SESIONES;
-	}
-
-	public Usuario[] getDatosUsuarios() {
+	public ArrayList<Usuario> getDatosUsuarios() {
 		return datosUsuarios;
 	}
 
-	public SesionUsuario[] getDatosSesiones() {
+	public ArrayList<SesionUsuario> getDatosSesiones() {
 		return datosSesiones;
 	}
-
+	
 	public int getSesionesRegistradas() {
-		return sesionesRegistradas;
+		return datosSesiones.size();
 	}
 	
 	/**
@@ -100,42 +95,93 @@ public class Datos {
 	 * del almacén de datos.
 	 */
 	private void cargarDatosPrueba() {
-		datosUsuarios[0] = new Usuario();
-		datosUsuarios[0].setNif("02344550K");
-		datosUsuarios[0].setNombre("Pepe"); 
-		datosUsuarios[0].setApellidos("López Pérez");
-		datosUsuarios[0].setDomicilio("C/Luna, 27 30132 Murcia");
-		datosUsuarios[0].setCorreo("pepe@gmail.com");
-		datosUsuarios[0].setFechaNacimiento("1990.11.12");
-		datosUsuarios[0].setFechaAlta("2014.12.03");
-		datosUsuarios[0].setClaveAcceso("miau0");
-		datosUsuarios[0].setRol("usuario normal");
-
-		for (int i = 1; i < MAX_USUARIOS; i++) {
-			datosUsuarios[i] = new Usuario("0234455"+i+"K", "Pepe" + i,
+		final int  MAX_USUARIOS_PRUEBA = 10;
+		for (int i = 0; i < MAX_USUARIOS_PRUEBA ; i++) {
+			Usuario usr =  new Usuario("0234455"+i+"K", "Pepe" + i,
 					"López" + " Pérez" +i, "C/Luna, 27 30132 Murcia", 
 					"pepe" + i + "@gmail.com", "1990.11.12", 
 					"2014.12.03", "miau" + i, "usuario normal");
+			
+			datosUsuarios.add(usr);
+			
+			//Añade equivalencias para idUsr 
+			equivalencias.put(usr.getIdUsr(), usr.getIdUsr());
+			equivalencias.put(usr.getNif(), usr.getIdUsr());
+			equivalencias.put(usr.getCorreo().toUpperCase(), usr.getIdUsr());
 		}
 	}
 
+	/**
+	 * Obtiene el idUsr que equivale a la credencial recibida.
+	 * @param credencialUsr, puede ser nif o correo.
+	 */
+	public String equivalenciaId(String credencialUsr) {	
+		return equivalencias.get(credencialUsr);
+	}
+	
+	/**
+	 * Búsqueda binaria de usuario dado su idUsr.
+	 * @param idUsr - el idUsr de Usuario a buscar.
+	 * @return - el Usuario encontrado o null si no existe.
+	 */
 	public Usuario buscarUsuario(String idUsr) {
-		// Buscar usuario coincidente con credencial
-		for (int i = 0; i < datosUsuarios.length; i++) {
-			if (datosUsuarios[i].getIdUsr().equals(idUsr.toUpperCase())) {
-				return datosUsuarios[i];
+		int comparacion;
+		int inicio = 0;
+		int fin = datosUsuarios.size() - 1;
+		int medio;
+		while (inicio <= fin) {
+			medio = (inicio + fin) / 2;
+			comparacion = datosUsuarios.get(medio).getIdUsr()
+								.compareToIgnoreCase(idUsr);
+			if (comparacion == 0) {
+				return datosUsuarios.get(medio);
+			}
+			if (comparacion < 0) {
+				inicio = medio + 1;
+			}
+			else {
+				fin = medio - 1;
 			}
 		}
 		return null;				
 	}
 	
 	/**
+	 * Búsqueda binaria recursiva de usuario dado su idUsr.
+	 * @param idUsr - el idUsr a buscar.
+	 * @param inicio - del bloque.
+	 * @param fin - del bloque.
+	 * @return - el Usuario encontrado o null si no existe.
+	 */		
+	private Usuario buscarUsuarioRec(String idUsr, int inicio, int fin) {
+		Usuario usrRetorno = null;
+		int comparacion; 
+		int medio;
+		if (inicio <= fin) {
+			medio = (inicio + fin) / 2;
+			comparacion = datosUsuarios.get(medio).getIdUsr()
+										.compareTo(idUsr);
+			if (comparacion == 0) {					// Encontrado
+				usrRetorno = datosUsuarios.get(medio);
+			}
+			else {
+				if(comparacion < 0) {
+					usrRetorno = buscarUsuarioRec(idUsr, medio+1, fin);
+				}
+				if (comparacion > 0) {
+					usrRetorno = buscarUsuarioRec(idUsr, inicio, medio-1);
+				}
+			}
+		}
+		return usrRetorno;
+	} 
+	
+	/**
 	 * Añade una nueva sesión en el almacén de datos.
 	 * @param sesionUsuario a guardar.
 	 */
 	public void registrarSesion(SesionUsuario sesionUsuario) {
-		datosSesiones[sesionesRegistradas] = sesionUsuario;
-		sesionesRegistradas++;	
+		datosSesiones.add(sesionUsuario);	
 	}
 
 } //class
