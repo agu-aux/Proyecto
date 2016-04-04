@@ -1,29 +1,17 @@
 package modelo;
 /** Proyecto: Juego de la vida.
- *  Implementa el concepto de Usuario según el modelo1.
- *  En esta versión se ha empezado a aplicar alguno de los estándares 
- *  de diseño OO dirigidos a conseguir un "código limpio". 
- *  La implementación es básica con el fin ilustrar 
- *  cómo se evoluciona desde un "código con defectos".
- *  Se pueden detectar varios defectos y antipatrones de diseño:
- *  	- Clase demasiado grande.
- *  	- Abuso de tipos primitivos.  
+ *  Implementa el concepto de Usuario según el modelo2.
+ *  Hereda de Persona.
  *  @since: prototipo1.0
  *  @source: Usuario.java 
  *  @version: 1.2 - 24/02/2016 
  *  @author: ajp
  */
 
-public class Usuario {
+public class Usuario extends Persona{
 
 	// Atributos	
-	private String nif;
-	private String nombre;
-	private String apellidos;
 	private String idUsr;
-	private String domicilio;
-	private String correo;
-	private String fechaNacimiento;
 	private String fechaAlta;
 	private String claveAcceso;
 	private String rol;
@@ -38,13 +26,9 @@ public class Usuario {
 	public Usuario(String nif, String nombre, String apellidos, 
 			String domicilio, String correo, String fechaNacimiento,
 			String fechaAlta, String claveAcceso, String rol) {
-		setNif(nif);
-		setNombre(nombre);
-		setApellidos(apellidos);
+		
+		super(nif, nombre, apellidos, domicilio, correo, fechaNacimiento);
 		idUsr = generarIdUsr();
-		setDomicilio(domicilio);
-		setCorreo(correo);
-		setFechaNacimiento(fechaNacimiento);
 		setFechaAlta(fechaAlta);
 		setClaveAcceso(claveAcceso);
 		setRol(rol);
@@ -56,6 +40,13 @@ public class Usuario {
 	 * Llama al constructor convencional de la propia clase.
 	 */
 	public Usuario(){
+	//	super("00000000A", "Nombre", "Apellido Apellido", 
+	//			"domicilio", "correo@correo.com", "2015.01.01");
+	//	idUsr = generarIdUsr();
+	//	setFechaAlta(fechaAlta);
+	//	setClaveAcceso(claveAcceso);
+	//	setRol(rol);
+		
 		this("00000000A", "Nombre", "Apellido Apellido", 
 				"domicilio", "correo@correo.com", "2015.01.01", 
 				"2015.01.01", "claveAcceso", "rol");
