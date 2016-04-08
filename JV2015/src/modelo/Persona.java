@@ -1,4 +1,7 @@
 package modelo;
+
+import util.Fecha;
+
 /** Proyecto: Juego de la vida.
  *  Implementa el concepto de Persona según el modelo2.
  *  @since: prototipo2.0
@@ -13,9 +16,9 @@ public class Persona {
 	protected String nif;
 	protected String nombre;
 	protected String apellidos;
-	protected String domicilio;
+	protected Direccion domicilio;
 	protected String correo;
-	protected String fechaNacimiento;
+	protected Fecha fechaNacimiento;
 
 	// Constructores
 	/**
@@ -25,7 +28,7 @@ public class Persona {
 	 * que se genera y controla internamente.
 	 */
 	public Persona(String nif, String nombre, String apellidos, 
-			String domicilio, String correo, String fechaNacimiento) {
+			Direccion domicilio, String correo, Fecha fechaNacimiento) {
 		setNif(nif);
 		setNombre(nombre);
 		setApellidos(apellidos);
@@ -41,7 +44,7 @@ public class Persona {
 	 */
 	public Persona(){
 		this("00000000A", "Nombre", "Apellido Apellido", 
-				"domicilio", "correo@correo.com", "2015.01.01");
+				new Direccion(), "correo@correo.com", new Fecha());
 	}
 
 	/**
@@ -69,11 +72,11 @@ public class Persona {
 		return apellidos;
 	}
 
-	public String getDomicilio() {
+	public Direccion getDomicilio() {
 		return domicilio;
 	}
 
-	public String getFechaNacimiento() {
+	public Fecha getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
@@ -139,35 +142,12 @@ public class Persona {
 		return apellidos.matches("^[A-Z][áéíóúa-z \\w]+");
 	}
 	
-	public void setDomicilio(String domicilio) {
+	public void setDomicilio(Direccion domicilio) {
 		assert domicilio != null;
-		assert domicilioValido(domicilio);
 		this.domicilio = domicilio;
 	}
-
-	/**
-	 * Comprueba validez de una dirección postal.
-	 * @param domicilio.
-	 * @return true si cumple.
-	 */
-	private boolean domicilioValido(String domicilio) {
-		assert domicilio.matches("[áéíóú /,\\w]+");
-		// Semántica.
-		return direccionAutentica(domicilio);
-	}
 	
-	/**
-	 * Comprueba que existe de una dirección postal.
-	 * @param domicilio.
-	 * @return true si cumple.
-	 */
-	private boolean direccionAutentica(String domicilio) {
-		// Comprueba que la dirección no es falsa.
-		//--Pendiente--
-		return true;
-	}
-	
-	public void setFechaNacimiento(String fechaNacimiento) {
+	public void setFechaNacimiento(Fecha fechaNacimiento) {
 		assert fechaNacimiento != null;
 		assert fechaNacimientoValida(fechaNacimiento);
 		this.fechaNacimiento = fechaNacimiento;
@@ -178,8 +158,8 @@ public class Persona {
 	 * @param fechaNacimiento.
 	 * @return true si cumple.
 	 */
-	private boolean fechaNacimientoValida(String fechaNacimiento) {
-		assert fechaNacimiento.matches("^[0-9]{4}[/.-][0-9]{1,2}[/.-][0-9]{1,2}");
+	private boolean fechaNacimientoValida(Fecha fechaNacimiento) {
+		assert fechaNacimiento != null;
 		//Semántica
 		return fechaNacimientoCoherente(fechaNacimiento);
 	}
@@ -189,7 +169,7 @@ public class Persona {
 	 * @param fechaNacimiento.
 	 * @return true si cumple.
 	 */
-	private boolean fechaNacimientoCoherente(String fechaNacimiento) {
+	private boolean fechaNacimientoCoherente(Fecha fechaNacimiento) {
 		// Comprueba que fechaNacimiento no es, por ejemplo, del futuro
 		// --Pendiente--
 		return true;

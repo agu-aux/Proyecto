@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
+import modelo.Direccion;
 import modelo.SesionUsuario;
 import modelo.Usuario;
+import modelo.Usuario.RolUsuario;
+import util.Fecha;
 
 public class Datos {
 
@@ -98,9 +101,9 @@ public class Datos {
 		final int  MAX_USUARIOS_PRUEBA = 10;
 		for (int i = 0; i < MAX_USUARIOS_PRUEBA ; i++) {
 			Usuario usr =  new Usuario("0234455"+i+"K", "Pepe" + i,
-					"López" + " Pérez" +i, "C/Luna, 27 30132 Murcia", 
-					"pepe" + i + "@gmail.com", "1990.11.12", 
-					"2014.12.03", "miau" + i, "usuario normal");
+					"López" + " Pérez" +i, new Direccion("30132", "C/Luna", "27", "Murcia", "España"), 
+					"pepe" + i + "@gmail.com", new Fecha(2001, 1, 12), 
+					new Fecha(2016, 4, 27), "miau" + i, RolUsuario.INVITADO);
 			
 			datosUsuarios.add(usr);
 			

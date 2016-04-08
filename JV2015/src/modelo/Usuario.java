@@ -1,4 +1,7 @@
 package modelo;
+
+import util.Fecha;
+
 /** Proyecto: Juego de la vida.
  *  Implementa el concepto de Usuario según el modelo2.
  *  Hereda de Persona.
@@ -10,11 +13,17 @@ package modelo;
 
 public class Usuario extends Persona{
 
+	public enum RolUsuario {
+		INVITADO, 
+		NORMAL, 
+		ADMINISTRADOR
+	}
+	
 	// Atributos	
 	private String idUsr;
-	private String fechaAlta;
+	private Fecha fechaAlta;
 	private String claveAcceso;
-	private String rol;
+	private RolUsuario rol;
 
 	// Constructores
 	/**
@@ -24,8 +33,8 @@ public class Usuario extends Persona{
 	 * que se genera y controla internamente.
 	 */
 	public Usuario(String nif, String nombre, String apellidos, 
-			String domicilio, String correo, String fechaNacimiento,
-			String fechaAlta, String claveAcceso, String rol) {
+			Direccion domicilio, String correo, Fecha fechaNacimiento,
+			Fecha fechaAlta, String claveAcceso, RolUsuario rol) {
 		
 		super(nif, nombre, apellidos, domicilio, correo, fechaNacimiento);
 		idUsr = generarIdUsr();
@@ -39,17 +48,10 @@ public class Usuario extends Persona{
 	 * Establece el valor inicial, por defecto, de cada uno de los atributos.
 	 * Llama al constructor convencional de la propia clase.
 	 */
-	public Usuario(){
-	//	super("00000000A", "Nombre", "Apellido Apellido", 
-	//			"domicilio", "correo@correo.com", "2015.01.01");
-	//	idUsr = generarIdUsr();
-	//	setFechaAlta(fechaAlta);
-	//	setClaveAcceso(claveAcceso);
-	//	setRol(rol);
-		
+	public Usuario(){	
 		this("00000000A", "Nombre", "Apellido Apellido", 
-				"domicilio", "correo@correo.com", "2015.01.01", 
-				"2015.01.01", "claveAcceso", "rol");
+				new Direccion(), "correo@correo.com", new Fecha(), 
+				new Fecha(), "claveAcceso", RolUsuario.NORMAL);
 	}
 
 	/**
@@ -82,15 +84,11 @@ public class Usuario extends Persona{
 		return idUsr;
 	}
 
-	public String getDomicilio() {
-		return domicilio;
-	}
-
 	public String getClaveAcceso() {
 		return claveAcceso;
 	}
 
-	public String getFechaNacimiento() {
+	public Fecha getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
@@ -98,11 +96,11 @@ public class Usuario extends Persona{
 		return correo;
 	}
 
-	public String getFechaAlta() {
+	public Fecha getFechaAlta() {
 		return fechaAlta;
 	}
 
-	public String getRol() {
+	public RolUsuario getRol() {
 		return rol;
 	}
 
@@ -229,34 +227,6 @@ public class Usuario extends Persona{
 		return apellidos.matches("^[A-Z][áéíóúa-z \\w]+");
 	}
 	
-	public void setDomicilio(String domicilio) {
-		assert domicilio != null;
-		assert domicilioValido(domicilio);
-		this.domicilio = domicilio;
-	}
-
-	/**
-	 * Comprueba validez de una dirección postal.
-	 * @param domicilio.
-	 * @return true si cumple.
-	 */
-	private boolean domicilioValido(String domicilio) {
-		assert domicilio.matches("[áéíóú /,\\w]+");
-		// Semántica.
-		return direccionAutentica(domicilio);
-	}
-	
-	/**
-	 * Comprueba que existe de una dirección postal.
-	 * @param domicilio.
-	 * @return true si cumple.
-	 */
-	private boolean direccionAutentica(String domicilio) {
-		// Comprueba que la dirección no es falsa.
-		//--Pendiente--
-		return true;
-	}
-	
 	public void setClaveAcceso(String claveAcceso) {
 		assert claveAcceso != null;
 		assert claveAccesoValida(claveAcceso);
@@ -288,9 +258,8 @@ public class Usuario extends Persona{
 		return encriptada.toString();
 	}
 
-	public void setFechaNacimiento(String fechaNacimiento) {
+	public void setFechaNacimiento(Fecha fechaNacimiento) {
 		assert fechaNacimiento != null;
-		assert fechaNacimientoValida(fechaNacimiento);
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
@@ -345,21 +314,10 @@ public class Usuario extends Persona{
 		return true;
 	}
 	
-	public void setFechaAlta(String fechaAlta) {
+	public void setFechaAlta(Fecha fechaAlta) {
 		assert fechaAlta != null;
-		assert fechaAltaValida(fechaAlta);
+		assert fechaAltaCoherente(fechaAlta);
 		this.fechaAlta = fechaAlta;
-	}
-
-	/**
-	 * Comprueba validez de una fecha de alta.
-	 * @param fechaAlta.
-	 * @return true si cumple.
-	 */
-	private boolean fechaAltaValida(String fechaAlta) {
-		assert fechaAlta.matches("^[0-9]{4}[/.-][0-9]{2}[/.-][0-9]{2}$");
-		// Semántica.
-		return fechaAltaCoherente(fechaAlta);
 	}
 	
 	/**
@@ -367,26 +325,15 @@ public class Usuario extends Persona{
 	 * @param fechaAlta.
 	 * @return true si cumple.
 	 */
-	private boolean fechaAltaCoherente(String fechaAlta) {
+	private boolean fechaAltaCoherente(Fecha fechaAlta) {
 		// Comprueba que fechaAlta no es, por ejemplo, del futuro
 		// --Pendiente--
 		return true;
 	}
 
-	public void setRol(String rol) {
+	public void setRol(RolUsuario rol) {
 		assert rol != null;
-		assert rolValido(rol);
 		this.rol = rol;
-	}
-
-	/**
-	 * Comprueba validez de un rol de usuario.
-	 * @param rol.
-	 * @return true si cumple.
-	 */
-	private boolean rolValido(String rol) {
-		// --Pendiente--
-		return true;
 	}
 	
 	// Métodos redefinidos
