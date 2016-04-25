@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
+import modelo.Contraseña;
+import modelo.Correo;
 import modelo.Direccion;
+import modelo.Nif;
 import modelo.SesionUsuario;
 import modelo.Usuario;
 import modelo.Usuario.RolUsuario;
@@ -100,17 +103,17 @@ public class Datos {
 	private void cargarDatosPrueba() {
 		final int  MAX_USUARIOS_PRUEBA = 10;
 		for (int i = 0; i < MAX_USUARIOS_PRUEBA ; i++) {
-			Usuario usr =  new Usuario("0234455"+i+"K", "Pepe" + i,
-					"López" + " Pérez" +i, new Direccion("30132", "C/Luna", "27", "Murcia", "España"), 
-					"pepe" + i + "@gmail.com", new Fecha(2001, 1, 12), 
-					new Fecha(2016, 4, 27), "miau" + i, RolUsuario.INVITADO);
+			Usuario usr =  new Usuario(new Nif("0234455"+i+"K"), "Pepe",
+					"López Pérez", new Direccion("30012", "Alta", "10", "Murcia", "España"), 
+					new Correo("pepe" + i + "@gmail.com"), new Fecha(1990, 11, 33), 
+					new Fecha(2014, 12, 3), new Contraseña("Miau#" + i), RolUsuario.NORMAL);
 			
 			datosUsuarios.add(usr);
 			
 			//Añade equivalencias para idUsr 
 			equivalencias.put(usr.getIdUsr(), usr.getIdUsr());
-			equivalencias.put(usr.getNif(), usr.getIdUsr());
-			equivalencias.put(usr.getCorreo().toUpperCase(), usr.getIdUsr());
+			equivalencias.put(usr.getNif().getTexto(), usr.getIdUsr());
+			equivalencias.put(usr.getCorreo().getTexto().toUpperCase(), usr.getIdUsr());
 		}
 	}
 
@@ -132,7 +135,7 @@ public class Datos {
 		int inicio = 0;
 		int fin = datosUsuarios.size() - 1;
 		int medio;
-		while (inicio <= fin) {
+		while (inicio <= fin && idUsr != null) {
 			medio = (inicio + fin) / 2;
 			comparacion = datosUsuarios.get(medio).getIdUsr()
 								.compareToIgnoreCase(idUsr);
@@ -160,7 +163,7 @@ public class Datos {
 		Usuario usrRetorno = null;
 		int comparacion; 
 		int medio;
-		if (inicio <= fin) {
+		if (inicio <= fin && idUsr != null) {
 			medio = (inicio + fin) / 2;
 			comparacion = datosUsuarios.get(medio).getIdUsr()
 										.compareTo(idUsr);

@@ -7,8 +7,12 @@
  * @author: ajp
  */
 
+import java.util.Date;
+import java.util.Scanner;
+
 import accesoDato.Datos;
 import accesoUsr.Presentacion;
+import modelo.*;
 
 public class JVPrincipal {	
 	public static void main(String[] args) {				

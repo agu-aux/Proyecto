@@ -12,8 +12,10 @@ import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 import accesoDato.Datos;
+import modelo.Contraseña;
 import modelo.SesionUsuario;
 import modelo.Usuario;
+import util.Fecha;
 
 public class Presentacion {
 	
@@ -71,10 +73,7 @@ public class Presentacion {
 			System.out.println(credencialUsr);
 			usrSesion = datos.buscarUsuario(credencialUsr);
 			if ( usrSesion != null) {	
-				// Usuario temporal para encriptar la clave introducida
-				Usuario usrTmp = new Usuario();
-				usrTmp.setClaveAcceso(clave);
-				if (usrSesion.getClaveAcceso().equals(usrTmp.getClaveAcceso())) {
+				if (usrSesion.getClaveAcceso().equals(new Contraseña(clave))) {
 					todoCorrecto = true;
 				}
 			}
@@ -88,12 +87,7 @@ public class Presentacion {
 
 		if (todoCorrecto) {
 			// Registra sesión
-			SesionUsuario sesionUsr = new SesionUsuario();
-			sesionUsr.setUsr(usrSesion);
-			Calendar hoy = new GregorianCalendar();
-			sesionUsr.setFecha(hoy.get(Calendar.YEAR) + "."
-							+ hoy.get(Calendar.MONTH) + "."
-							+ hoy.get(Calendar.DATE));
+			SesionUsuario sesionUsr = new SesionUsuario(usrSesion, new Fecha());
 			datos.registrarSesion(sesionUsr);
 			
 			System.out.println("Sesión: " + datos.getSesionesRegistradas()
@@ -193,6 +187,6 @@ public class Presentacion {
 	public void mostrar(String texto) {
 		System.out.println(texto);
 	}
-
+	
 } //class
 

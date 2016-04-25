@@ -1,4 +1,7 @@
 package modelo;
+
+import util.Fecha;
+
 /** 
  * Proyecto: Juego de la vida.
  *  Implementa el concepto de SesionUsuario según el modelo1
@@ -6,7 +9,7 @@ package modelo;
  *  de diseño OO dirigidos a conseguir un "código limpio". 
  *  @since: prototipo1.0
  *  @source: SesionUsuario.java 
- *  @version: 1.2 - 22/02/2016 
+ *  @version: 2.0 - 11/04/2016 
  *  @author: ajp
  */
 
@@ -14,7 +17,7 @@ public class SesionUsuario {
 	
 	// Atributos	
 	private Usuario usr;   // Concreta la relación de composición del modelo UML
-	private String fecha; 
+	private Fecha fecha; 
 	
 	// Constructores
 	
@@ -22,17 +25,17 @@ public class SesionUsuario {
 	 * @param usr
 	 * @param fecha
 	 */
-	public SesionUsuario(Usuario usr, String fecha) {
+	public SesionUsuario(Usuario usr, Fecha fecha) {
 		setUsr(usr);
 		setFecha(fecha);
 	}
 	
 	public SesionUsuario(){
-		this(new Usuario(), "2015.01.01");
+		this(new Usuario(), new Fecha());
 	}
 
 	public SesionUsuario(SesionUsuario su){
-		this(new Usuario(su.usr), new String(su.fecha));
+		this(new Usuario(su.usr), new Fecha(su.fecha));
 	}
 	
 	
@@ -42,7 +45,7 @@ public class SesionUsuario {
 		return usr;
 	}
 	
-	public String getFecha() {
+	public Fecha getFecha() {
 		return fecha;
 	}
 
@@ -51,8 +54,7 @@ public class SesionUsuario {
 		this.usr = usr;
 	}
 	
-	public void setFecha(String fecha) {
-		assert fecha != null;
+	public void setFecha(Fecha fecha) {
 		assert fechaSesionValida(fecha);
 		this.fecha = fecha;
 	}
@@ -62,10 +64,12 @@ public class SesionUsuario {
 	 * @param fecha.
 	 * @return true si cumple.
 	 */
-	private boolean fechaSesionValida(String fecha) {
-		assert fecha.matches("^[0-9]{4}[/.-][0-9]{1,2}[/.-][0-9]{1,2}$");
-		// Semántica.
-		return fechaSesionCoherente(fecha);
+	private boolean fechaSesionValida(Fecha fecha) {
+		if (fecha != null
+				&& fechaSesionCoherente(fecha)) {
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -73,7 +77,7 @@ public class SesionUsuario {
 	 * @param fecha.
 	 * @return true si cumple.
 	 */
-	private boolean fechaSesionCoherente(String fecha) {
+	private boolean fechaSesionCoherente(Fecha fecha) {
 		// Comprueba que fechaSesion no es, por ejemplo, del futuro
 		// --Pendiente--
 		return true;

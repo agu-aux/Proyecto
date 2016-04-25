@@ -4,25 +4,25 @@ import util.Fecha;
 
 /** Proyecto: Juego de la vida.
  *  Implementa el concepto de Usuario según el modelo2.
- *  Hereda de Persona.
+ *  Hereda de Persona.  
  *  @since: prototipo1.0
  *  @source: Usuario.java 
- *  @version: 1.2 - 24/02/2016 
+ *  @version: 2.0 - 14/03/2016 
  *  @author: ajp
  */
 
-public class Usuario extends Persona{
+public class Usuario  extends Persona {
 
 	public enum RolUsuario {
 		INVITADO, 
 		NORMAL, 
 		ADMINISTRADOR
 	}
-	
+
 	// Atributos	
 	private String idUsr;
 	private Fecha fechaAlta;
-	private String claveAcceso;
+	private Contraseña claveAcceso;
 	private RolUsuario rol;
 
 	// Constructores
@@ -32,9 +32,9 @@ public class Usuario extends Persona{
 	 * Recibe parámetros que se corresponden con los atributos menos idUsr
 	 * que se genera y controla internamente.
 	 */
-	public Usuario(String nif, String nombre, String apellidos, 
-			Direccion domicilio, String correo, Fecha fechaNacimiento,
-			Fecha fechaAlta, String claveAcceso, RolUsuario rol) {
+	public Usuario(Nif nif, String nombre, String apellidos, 
+			Direccion domicilio, Correo correo, Fecha fechaNacimiento,
+			Fecha fechaAlta, Contraseña claveAcceso, RolUsuario rol) {
 		
 		super(nif, nombre, apellidos, domicilio, correo, fechaNacimiento);
 		idUsr = generarIdUsr();
@@ -48,10 +48,10 @@ public class Usuario extends Persona{
 	 * Establece el valor inicial, por defecto, de cada uno de los atributos.
 	 * Llama al constructor convencional de la propia clase.
 	 */
-	public Usuario(){	
-		this("00000000A", "Nombre", "Apellido Apellido", 
-				new Direccion(), "correo@correo.com", new Fecha(), 
-				new Fecha(), "claveAcceso", RolUsuario.NORMAL);
+	public Usuario(){
+		this(new Nif(), "Nombre", "Apellido Apellido", 
+				new Direccion(), new Correo(), new Fecha(), 
+				new Fecha(), new Contraseña(), RolUsuario.INVITADO);
 	}
 
 	/**
@@ -61,39 +61,19 @@ public class Usuario extends Persona{
 	 * Llama al constructor convencional de la propia clase.
 	 */
 	public Usuario(Usuario usr) {
-		this(usr.nif, usr.nombre, usr.apellidos, 
-				usr.domicilio, usr.correo, usr.fechaNacimiento, 
+		this(usr.nif, usr.nombre, usr.apellidos, usr.domicilio, 
+				usr.correo, usr.fechaNacimiento, 
 				usr.fechaAlta, usr.claveAcceso, usr.rol);
 	}
 
 	// Métodos de acceso.
 
-	public String getNif() {
-		return nif;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public String getApellidos() {
-		return apellidos;
-	}
-
 	public String getIdUsr() {
 		return idUsr;
 	}
 
-	public String getClaveAcceso() {
+	public Contraseña getClaveAcceso() {
 		return claveAcceso;
-	}
-
-	public Fecha getFechaNacimiento() {
-		return fechaNacimiento;
-	}
-
-	public String getCorreo() {
-		return correo;
 	}
 
 	public Fecha getFechaAlta() {
@@ -104,45 +84,24 @@ public class Usuario extends Persona{
 		return rol;
 	}
 
-	public void setNif(String nif) {
+	@Override
+	public void setNif(Nif nif) {
 		assert nif != null;
-		assert nifValido(nif);
-		this.nif = nif;
+		super.nif = nif;
 		// Detecta que no es tiempo de constructor.
 		if (this.idUsr != null) {
 			reGenerarIdUsr();
 		}
 	}
 
-	/**
-	 * Comprueba la validez de un nif.
-	 * @param nif.
-	 * @return true si cumple.
-	 */
-	private boolean nifValido(String nif) {		
-		assert nif.matches("^[0-9]{8}[a-zA-Z]");
-		// Letra de control.
-		return letraValida(nif);		
-	}
-	
-	/**
-	 * Comprueba la letra del un nif.
-	 * @param nif.
-	 * @return true si es correcta.
-	 */
-	private boolean letraValida(String nif) {
-		// Algoritmo de obtención letra
-		//--Pendiente--
-		return true;
-	}
-	
 	private void reGenerarIdUsr() {
-		assert nif != null;
-		assert nombre != null;
-		assert apellidos != null;
-		idUsr = generarIdUsr();
+		if (nif != null 
+				&& nombre != null
+				&& apellidos != null) {
+			idUsr = generarIdUsr();
+		}
 	}
-	
+
 	/**
 	 * Genera un identificador interno de usuario.
 	 */
@@ -159,8 +118,8 @@ public class Usuario extends Persona{
 		}
 
 		// Últimos dos caracteres del nif
-		idUsr.append(nif.substring(nif.length()-2));	
-		
+		idUsr.append(nif.getTexto().substring(nif.getTexto().length()-2));	
+
 		// Comprueba que no existe y varía si es necesario.
 		// ¿Cuantas veces debería intentarlo?
 		while (buscarUsuario(idUsr.toString()) != null) {
@@ -174,7 +133,7 @@ public class Usuario extends Persona{
 		//--Pendiente--
 		return null;
 	}
-	
+
 	/**
 	 * Varía un identificador interno de usuario.
 	 * @param idUsr.
@@ -188,138 +147,30 @@ public class Usuario extends Persona{
 			idUsr.setCharAt(4, (char) (idUsr.charAt(4) + 1));
 		}
 	}
-	
-	public void setNombre(String nombre) {
-		assert nombre != null;
-		assert nombreValido(nombre);
-		this.nombre = nombre;
-		// Detecta que no es tiempo de constructor.
-		if (idUsr != null) {
-			reGenerarIdUsr();
-		}
-	}
 
-	/**
-	 * Comprueba validez del un nombre.
-	 * @param nombre.
-	 * @return true si cumple.
-	 */
-	private boolean nombreValido(String nombre) {
-		return nombre.matches("^[A-Z][áéíóúa-z]+[ A-Záéíóú\\w ]*");
-	}
-	
-	public void setApellidos(String apellidos) {
-		assert apellidos != null;
-		assert apellidosValidos(apellidos);
-		this.apellidos = apellidos;
-		// Detecta que no es tiempo de constructor.
-		if (this.idUsr != null) {
-			reGenerarIdUsr();
-		}
-	}
-
-	/**
-	 * Comprueba validez de los apellidos.
-	 * @param apellidos.
-	 * @return true si cumple.
-	 */
-	private boolean apellidosValidos(String apellidos) {
-		return apellidos.matches("^[A-Z][áéíóúa-z \\w]+");
-	}
-	
-	public void setClaveAcceso(String claveAcceso) {
+	public void setClaveAcceso(Contraseña claveAcceso) {
 		assert claveAcceso != null;
-		assert claveAccesoValida(claveAcceso);
-		this.claveAcceso = encriptar(claveAcceso);
+		this.claveAcceso = claveAcceso;
 	}
 
-	/**
-	 * Comprueba complejidad de una contraseña.
-	 * @param claveAcceso.
-	 * @return true si cumple.
-	 */
-	private boolean claveAccesoValida(String claveAcceso) {
-		return claveAcceso.matches("[A-ZÑa-zñ0-9%&#_-]{4,18}");
-	}
-	
-	/**
-	 * Encripta una texto utilizando algoritmo simple.
-	 * @param claveAcceso - a encriptar.
-	 * @return clave encriptada.
-	 */
-	private String encriptar(String claveAcceso) {
-		StringBuilder encriptada = new StringBuilder();
-		String alfabetoNormal =   "%&#_-0123456789abcdefghijklmnñopqrstuvwxyzABCEFGHIJKLMNÑOPQRSTUVWXYZ";
-		String alfabetoDesplazado = "6789abcdefghijklmnñopqrstuvwxyzABCEFGHIJKLMNÑOPQRSTUVWXYZ%&#_-012345";
-		for (char i = 0; i < claveAcceso.length(); i++) {
-			int posicion = alfabetoNormal.indexOf(claveAcceso.charAt(i));
-			encriptada.append(alfabetoDesplazado.charAt(posicion));
-		}
-		return encriptada.toString();
-	}
-
-	public void setFechaNacimiento(Fecha fechaNacimiento) {
-		assert fechaNacimiento != null;
-		this.fechaNacimiento = fechaNacimiento;
-	}
-
-	/**
-	 * Comprueba validez de una fecha de nacimiento.
-	 * @param fechaNacimiento.
-	 * @return true si cumple.
-	 */
-	private boolean fechaNacimientoValida(String fechaNacimiento) {
-		assert fechaNacimiento.matches("^[0-9]{4}[/.-][0-9]{1,2}[/.-][0-9]{1,2}");
-		//Semántica
-		return fechaNacimientoCoherente(fechaNacimiento);
-	}
-	
-	/**
-	 * Comprueba coherencia de una fecha de nacimiento.
-	 * @param fechaNacimiento.
-	 * @return true si cumple.
-	 */
-	private boolean fechaNacimientoCoherente(String fechaNacimiento) {
-		// Comprueba que fechaNacimiento no es, por ejemplo, del futuro
-		// --Pendiente--
-		return true;
-	}
-	
-	public void setCorreo(String correo) {
-		assert correo != null;
-		assert correoValido(correo);
-		this.correo = correo;
-	}
-
-	/**
-	 * Comprueba validez de una dirección de correo electrónico.
-	 * @param correo.
-	 * @return true si cumple.
-	 */
-	private boolean correoValido(String correo) {
-		assert correo.matches("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*"
-							+ "@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,3})$");
-		// Semántica.
-		return correoAutentico(correo);
-	}
-	
-	/**
-	 * Comprueba que una dirección de correo existe.
-	 * @param correo.
-	 * @return true si cumple.
-	 */
-	private boolean correoAutentico(String correo) {
-		// Comprueba que el correo no es falso
-		// --Pendiente--
-		return true;
-	}
-	
 	public void setFechaAlta(Fecha fechaAlta) {
-		assert fechaAlta != null;
-		assert fechaAltaCoherente(fechaAlta);
+		assert fechaAltaValida(fechaAlta);
 		this.fechaAlta = fechaAlta;
 	}
-	
+
+	/**
+	 * Comprueba validez de una fecha de alta.
+	 * @param fechaAlta.
+	 * @return true si cumple.
+	 */
+	private boolean fechaAltaValida(Fecha fechaAlta) {
+		if (fechaAlta != null
+				&& fechaAltaCoherente(fechaAlta)) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Comprueba coherencia de una fecha de alta.
 	 * @param fechaAlta.
@@ -335,7 +186,7 @@ public class Usuario extends Persona{
 		assert rol != null;
 		this.rol = rol;
 	}
-	
+
 	// Métodos redefinidos
 
 	/**
@@ -345,20 +196,20 @@ public class Usuario extends Persona{
 	 */
 	@Override
 	public String toString() {
-	
+
 		return String.format(
 				"\n nif: \t\t%s,"
-				+ "\n nombre: \t%s,"
-				+ "\n apellidos: \t%s,"
-				+ "\n idUsr: \t%s,"
-				+ "\n domicilio: \t%s,"
-				+ "\n correo: \t%s,"
-				+ "\n fechaNacimiento: \t%s,"
-				+ "\n fechaAlta: \t%s,"
-				+ "\n claveAcceso: \t%s,"
-				+ "\n rol: \t\t%s", 
-				nif, nombre, apellidos, idUsr, domicilio, correo, 
-				fechaNacimiento, fechaAlta, claveAcceso, rol);		
+						+ "\n nombre: \t%s,"
+						+ "\n apellidos: \t%s,"
+						+ "\n idUsr: \t%s,"
+						+ "\n domicilio: \t%s,"
+						+ "\n correo: \t%s,"
+						+ "\n fechaNacimiento: \t%s,"
+						+ "\n fechaAlta: \t%s,"
+						+ "\n claveAcceso: \t%s,"
+						+ "\n rol: \t\t%s", 
+						nif, nombre, apellidos, idUsr, domicilio, correo, 
+						fechaNacimiento, fechaAlta, claveAcceso, rol);		
 	}
 
 } // class

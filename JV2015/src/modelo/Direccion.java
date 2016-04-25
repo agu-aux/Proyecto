@@ -1,5 +1,7 @@
 package modelo;
 
+import util.Formato;
+
 public class Direccion {
 	private String codigoPostal;
 	private String via;
@@ -26,7 +28,6 @@ public class Direccion {
 	}
 	
 	public void setCodigoPostal(String codigoPostal) {
-		assert codigoPostal != null;
 		assert codigoPostalValido(codigoPostal);
 		this.codigoPostal = codigoPostal;
 	}
@@ -37,9 +38,12 @@ public class Direccion {
 	 * @return true si cumple.
 	 */
 	private boolean codigoPostalValido(String codigoPostal) {
-		assert codigoPostal.matches("^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$");
-		// Semántica.
-		return codigoPostalAutentico(codigoPostal);
+		if (codigoPostal != null
+				&& util.Formato.validar(codigoPostal, Formato.PATRON_CP) 
+				&& codigoPostalAutentico(codigoPostal)) {
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -54,7 +58,6 @@ public class Direccion {
 	}
 
 	public void setVia(String via) {
-		assert via != null;
 		assert viaValida(via);
 		this.via = via;	
 	}
@@ -65,9 +68,12 @@ public class Direccion {
 	 * @return true si cumple.
 	 */
 	private boolean viaValida(String via) {
-		assert via.matches("[\\w áéíóú]+");
-		// Semántica.
-		return viaAutentica(via);
+		if (via != null
+				&& util.Formato.validar(via, Formato.PATRON_TOPONIMO)
+				&& viaAutentica(via)) {
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -82,7 +88,6 @@ public class Direccion {
 	}
 	
 	public void setNumero(String numero) {
-		assert numero != null;
 		assert numeroValido(numero);
 		this.numero = numero;
 	}
@@ -93,11 +98,14 @@ public class Direccion {
 	 * @return true si cumple.
 	 */
 	private boolean numeroValido(String numero) {
-		return numero.matches("[\\d]+");
+		if (numero != null
+				&& util.Formato.validar(numero, Formato.PATRON_NUMERO_POSTAL)) {
+			return true;
+		}
+		return false;
 	}
 	
 	public void setPoblacion(String poblacion) {
-		assert poblacion != null;
 		assert poblacionValida(poblacion);
 		this.poblacion = poblacion;
 	}
@@ -108,9 +116,12 @@ public class Direccion {
 	 * @return true si cumple.
 	 */
 	private boolean poblacionValida(String poblacion) {
-		assert poblacion.matches("[\\w áéíóú]+");
-		// Semántica.
-		return poblacionAutentica(poblacion);
+		if (poblacion != null
+				&& util.Formato.validar(poblacion, Formato.PATRON_TOPONIMO)
+				&& poblacionAutentica(poblacion)) {
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -125,7 +136,6 @@ public class Direccion {
 	}
 	
 	public void setPais(String pais) {
-		assert pais != null;
 		assert paisValido(pais);
 		this.pais = pais;
 	}
@@ -136,9 +146,12 @@ public class Direccion {
 	 * @return true si cumple.
 	 */
 	private boolean paisValido(String pais) {
-		assert pais.matches("[\\w áéíóú]+");
-		// Semántica.
-		return paisAutentico(pais);
+		if (pais != null
+				&& util.Formato.validar(pais, Formato.PATRON_TOPONIMO)
+				&& paisAutentico(pais)) {
+			return true;
+		}
+		return false;
 	}
 	
 	/**
